@@ -16,14 +16,15 @@ class WindowFactory {
 
   createWindow(config = {}) {
     const { name, options } = config;
-    if (WindowFactory.winndowsMap[name]) {
-      WindowFactory.winndowsMap[name].show();
+    const currentWindow = this.getWindow(name);
+    if (currentWindow) {
+      currentWindow.show();
       return;
     }
 
     const window = new BrowserWindow({ ...basicOptions, ...options });
     window.on("close", () => {
-      window = null;
+      WindowFactory.winndowsMap[name] = null;
     });
 
     window.once("ready-to-show", () => {
@@ -33,7 +34,7 @@ class WindowFactory {
     window.loadFile(path.join(__dirname, `${name}/index.html`));
     WindowFactory.winndowsMap[name] = window;
     
-    return WindowFactory.winndowsMap[name];
+    return window;
   }
 
   getWindow(name) {
@@ -41,14 +42,16 @@ class WindowFactory {
   }
 
   closeWindow(name) {
-    if (WindowFactory.winndowsMap[name]) {
-      WindowFactory.winndowsMap[name].close();
+    const currentWindow = this.getWindow(name);
+    if (currentWindow) {
+      currentWindow.close();
     }
   }
 
   sendMessage(targetName, data) {
-    if (WindowFactory.winndowsMap[targetName] && data) {
-      WindowFactory.winndowsMap[targetName].webContents.send(data);
+    const currentWindow = this.getWindow(targetName);
+    if (currentWindow && data) {
+      currentWindow.webContents.send(data);
     }
   }
 }

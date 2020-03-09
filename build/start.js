@@ -29,7 +29,8 @@ compilerMain.run((err, stats) => {
     childProcess
     .spawn(electron, ["."], { stdio: "inherit" })
     .on("close", () => {
-      console.log('process ended');
+      console.log('process closed');
+      process.exit();
     });
   });
 });
