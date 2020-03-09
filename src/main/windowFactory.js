@@ -16,6 +16,7 @@ class WindowFactory {
   createWindow(config = {}) {
     const { name, options } = config;
     if (WindowFactory.winndowsMap[name]) {
+      WindowFactory.winndowsMap[name].show();
       return;
     }
 
@@ -31,6 +32,7 @@ class WindowFactory {
     const url = `file://${__dirname}/dist/${name}/index.html`;
     window.loadURL(url);
     WindowFactory.winndowsMap[name] = window;
+    
     return WindowFactory.winndowsMap[name];
   }
 
@@ -39,7 +41,9 @@ class WindowFactory {
   }
 
   closeWindow(name) {
-    WindowFactory.winndowsMap[name].close();
+    if (WindowFactory.winndowsMap[name]) {
+      WindowFactory.winndowsMap[name].close();
+    }
   }
 
   sendMessage(targetName, data) {

@@ -1,5 +1,4 @@
 const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
@@ -7,17 +6,8 @@ const {
   entryPages,
   rendererDir,
   rendererDistDir,
-  templateDir
+  htmlPlugins
 } = require("./util.js");
-
-const htmlPlugins = Object.keys(entryPages).map(
-  v =>
-    new HtmlWebpackPlugin({
-      template: path.resolve(templateDir, "./index.html"),
-      filename: `${v}/index.html`,
-      chunks: [v]
-    })
-);
 
 const baseModule = {
   rules: [
@@ -64,7 +54,7 @@ const baseModule = {
   ]
 };
 
-const config = {
+module.rendererConfig = {
   entry: entryPages,
   output: {
     path: rendererDistDir,
@@ -93,4 +83,11 @@ const config = {
     }
   }
 };
-module.exports = config;
+
+module.mainConfig = {
+  module: baseModule,
+  target: "electron-main",
+  plugins: [
+    new CleanWebpackPlugin()
+  ],
+}

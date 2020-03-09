@@ -1,10 +1,10 @@
 import { app } from "electron";
 import windowFactory from "./windowFactory";
 
-let main = null;
+let mainWindow = null;
 
 const createMainWindow = () => {
-  main = windowFactory.createWindow({
+  mainWindow = windowFactory.createWindow({
     name: "main",
     options: {}
   });
@@ -19,7 +19,7 @@ app.on("window-all-closed", () => {
 });
 
 app.on("activate", () => {
-  if (!main) {
+  if (!mainWindow) {
     createMainWindow();
   }
 });
