@@ -1,4 +1,5 @@
 import { BrowserWindow } from "electron";
+import path from 'path';
 
 const basicOptions = {
   width: 800,
@@ -29,8 +30,7 @@ class WindowFactory {
       window.show();
     });
 
-    const url = `file://${__dirname}/dist/${name}/index.html`;
-    window.loadURL(url);
+    window.loadFile(path.join(__dirname, `${name}/index.html`));
     WindowFactory.winndowsMap[name] = window;
     
     return WindowFactory.winndowsMap[name];

@@ -1,20 +1,35 @@
 const childProcess = require("child_process");
 const electron = require("electron");
 const webpack = require("webpack");
-const config = require("./webpack");
+const configRenderer = require("../webpack/renderer");
+const configMain = require("../webpack/main/webpack.config");
 
 const env = "development";
-const compiler = webpack(config(env));
-let electronStarted = false;
+const compilerMain = webpack(configMain);
+const compilerRenderer = webpack(configRenderer(env));
 
-const watching = compiler.watch({}, (err, stats) => {
-  if (!err && !stats.hasErrors() && !electronStarted) {
-    electronStarted = true;
-
-    childProcess
-      .spawn(electron, ["."], { stdio: "inherit" })
-      .on("close", () => {
-        watching.close();
-      });
+compilerMain.run((err, stats) => {
+  console.log(stats.toString({
+    chunks: false,
+    colors: true
+  }));
+  if (err && stats.hasErrors()) {
+    console.log('webpack get Error when compile Main');
+    return;
   }
+  compilerRenderer.run((error, statses) => {
+    console.log(statses.toString({
+      chunks: false,
+      colors: true
+    }));
+    if (error && statses.hasErrors()) {
+      console.log('webpack get Error when compile Renderer');
+      return;
+    }
+    childProcess
+    .spawn(electron, ["."], { stdio: "inherit" })
+    .on("close", () => {
+      console.log('process ended');
+    });
+  });
 });

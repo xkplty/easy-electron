@@ -15,6 +15,7 @@ exports.mainDir = path.resolve(rootPath, "./src/main");
 exports.rootPath = rootPath;
 exports.rendererDir = rendererDir;
 exports.templateDir = templateDir;
+exports.entryPages = entryPages;
 
 
 exports.htmlPlugins = Object.keys(entryPages).map(

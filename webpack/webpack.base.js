@@ -54,7 +54,7 @@ const baseModule = {
   ]
 };
 
-module.rendererConfig = {
+exports.rendererConfig = {
   entry: entryPages,
   output: {
     path: rendererDistDir,
@@ -62,19 +62,14 @@ module.rendererConfig = {
   },
   module: baseModule,
   node: {
-    fs: "empty",
-    net: "empty",
-    tls: "empty",
-    __filename: true,
-    __dirname: true
+    __dirname: false
   },
   target: "electron-renderer",
   plugins: [
     ...htmlPlugins,
     new MiniCssExtractPlugin({
       filename: "[name]/index.css"
-    }),
-    new CleanWebpackPlugin()
+    })
   ],
   resolve: {
     alias: {
@@ -84,9 +79,12 @@ module.rendererConfig = {
   }
 };
 
-module.mainConfig = {
+exports.mainConfig = {
   module: baseModule,
   target: "electron-main",
+  node: {
+    __dirname: false
+  },
   plugins: [
     new CleanWebpackPlugin()
   ],
