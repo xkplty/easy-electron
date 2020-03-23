@@ -5,7 +5,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const {
   entryPages,
   rendererDir,
-  rendererDistDir,
+  sourceDist,
   htmlPlugins
 } = require("./util.js");
 
@@ -57,7 +57,7 @@ const baseModule = {
 exports.rendererConfig = {
   entry: entryPages,
   output: {
-    path: rendererDistDir,
+    path: sourceDist,
     filename: "[name]/index.js"
   },
   module: baseModule,

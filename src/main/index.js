@@ -3,6 +3,8 @@ import windowFactory from "./windowFactory";
 
 let mainWindow = null;
 
+app.commandLine.appendSwitch('no-sandbox');
+
 const createMainWindow = () => {
   mainWindow = windowFactory.createWindow({
     name: "main",

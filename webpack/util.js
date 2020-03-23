@@ -9,7 +9,7 @@ const entryPages = {
   main: path.resolve(rendererDir, "./pages/main/index.js")
 };
 
-exports.rendererDistDir = path.resolve(rootPath, "./dist");
+exports.sourceDist = path.resolve(rootPath, "./app");
 exports.mainDir = path.resolve(rootPath, "./src/main");
 
 exports.rootPath = rootPath;
